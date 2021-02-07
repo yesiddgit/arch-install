@@ -30,6 +30,7 @@ pacman=(
 yay=(
   consolas-font
   ttf-gentium-basic
+  spotify
 )
 
 sudo pacman -S --noconfirm ${pacman[@]}
