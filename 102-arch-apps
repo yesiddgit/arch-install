@@ -5,6 +5,7 @@ pacman=(
   adobe-source-code-pro-fonts
   adobe-source-sans-pro-fonts
   adobe-source-serif-pro-fonts
+  github-cli
   libreoffice-fresh
   mplayer
   neofetch
@@ -19,6 +20,7 @@ pacman=(
   ttf-linux-libertine-g
   ttf-roboto-mono
   vlc
+  yq
   zathura
   zathura-cb
   zathura-djvu
