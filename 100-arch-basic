@@ -14,14 +14,15 @@ mkfs.fat -F32 /dev/sda1
 mkfs.ext4 /dev/sda2
 mkfs.ext4 /dev/sda3
 mkswap /dev/sda4
+swapon /dev/sda4
 mount /dev/sda2 /mnt
-mkdir /mnt/boot/EFI
+mkdir /mnt/boot
 mkdir /mnt/home
-mount /dev/sda1 /mnt/boot/EFI
+mount /dev/sda1 /mnt/boot
 mount /dev/sda3 /mnt/home
 
 # Base packages
-pacstrap /mnt base linux linux-firmware
+pacstrap /mnt base linux linux-firmware nano
 
 # Fstab
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -34,14 +35,14 @@ ln -sf /usr/share/zoneinfo/America/Bogota /etc/localtime
 hwclock --systohc
 
 # Localization
-echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen
+echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
 echo LANG=en_US.UTF-8 > /etc/locale.conf
 echo KEYMAP=es > /etc/vconsole.conf
 
 # Networking
 echo archlinux > /etc/hostname
-vim /etc/hosts
+nano /etc/hosts
 #127.0.0.1   localhost
 #::1         localhost
 #127.0.1.1   archlinux.localdomain   archlinux
@@ -51,21 +52,21 @@ passwd
 
 # Bootloader (Grub)
 pacman -S grub efibootmgr os-prober dosfstools mtools ntfs-3g
-grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=Arch
---recheck
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Arch --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # Create user and permissions
 useradd -m -G wheel,video,audio,input,power,storage,optical yesidd
 passwd yesidd
-pacman -S base-devel sudo vim
-EDITOR=vim visudo
+pacman -S base-devel sudo
+EDITOR=nano visudo
 
 # Internet and home folders
-pacman -S networkmanager xdg-user-dirs
+pacman -S networkmanager xdg-user-dirs git ufw
 systemctl enable NetworkManager
 # nmcli dev wifi connect SSID password pass
 xdg-user-dirs-update
+ufw enable
 
 exit
 umount -R /mnt

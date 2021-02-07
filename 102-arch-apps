@@ -6,7 +6,6 @@ pacman=(
   adobe-source-sans-pro-fonts
   adobe-source-serif-pro-fonts
   libreoffice-fresh
-  libreoffice-fresh
   mplayer
   neofetch
   nodejs
@@ -24,7 +23,6 @@ pacman=(
   zathura-cb
   zathura-djvu
   zathura-pdf-mupdf
-  zathura-pdf-poppler
   zathura-ps
 )
 
