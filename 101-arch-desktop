@@ -66,3 +66,4 @@ rm .zshrc
 git clone --bare https://github.com/yesiddgit/.dotfiles.git $HOME/.dotfiles
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 config dotfiles --local status.showUntrackedFiles no
+sudo cp ~/.config/zsh/gitstart /usr/local/bin
