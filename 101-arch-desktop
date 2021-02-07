@@ -53,7 +53,7 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
 
 # Git config
-git config --global user.name yesiddgit
+git config --global user.name yesiddgarzon
 git config --global user.email yesiddgarzon@gmail.com
 git config --global color.ui true
 git config --global core.editor nvim
@@ -63,7 +63,7 @@ ssh -T git@github.com
 # Clone dotfiles
 cd $HOME
 rm .zshrc
-git clone --bare https://github.com/yesiddgit/.dotfiles.git $HOME/.dotfiles
+git clone --bare https://github.com/yesiddgarzon/.dotfiles.git $HOME/.dotfiles
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 dotfiles checkout
 dotfiles config --local status.showUntrackedFiles no
