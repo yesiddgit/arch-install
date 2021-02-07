@@ -1,35 +1,4 @@
 #!/bin/bash
-
-# loadkeys es
-# ls /sys/firmware/efi/efivars
-# internet connection and test
-
-# System clock
-timedatectl set-ntp true
-timedatectl status
-
-# Disks
-cgdisk /dev/sda1
-mkfs.fat -F32 /dev/sda1
-mkfs.ext4 /dev/sda2
-mkfs.ext4 /dev/sda3
-mkswap /dev/sda4
-swapon /dev/sda4
-mount /dev/sda2 /mnt
-mkdir /mnt/boot
-mkdir /mnt/home
-mount /dev/sda1 /mnt/boot
-mount /dev/sda3 /mnt/home
-
-# Base packages
-pacstrap /mnt base linux linux-firmware nano
-
-# Fstab
-genfstab -U /mnt >> /mnt/etc/fstab
-
-# Chroot
-arch-chroot /mnt
-
 # Time zone
 ln -sf /usr/share/zoneinfo/America/Bogota /etc/localtime
 hwclock --systohc
@@ -62,12 +31,9 @@ pacman -S base-devel sudo
 EDITOR=nano visudo
 
 # Internet and home folders
-pacman -S networkmanager xdg-user-dirs git ufw
+pacman -S networkmanager xdg-user-dirs git
 systemctl enable NetworkManager
 # nmcli dev wifi connect SSID password pass
 xdg-user-dirs-update
-ufw enable
 
 exit
-umount -R /mnt
-reboot

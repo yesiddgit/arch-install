@@ -2,7 +2,6 @@
 
 # Install packages
 pacman=(
-  adobe-source-code-pro-fonts
   adobe-source-sans-pro-fonts
   adobe-source-serif-pro-fonts
   github-cli
@@ -16,9 +15,9 @@ pacman=(
   ttf-caladea
   ttf-carlito
   ttf-dejavu
-  ttf-liberation
   ttf-linux-libertine-g
   ttf-roboto-mono
+  ufw
   vlc
   yq
   zathura
@@ -30,10 +29,10 @@ pacman=(
 
 yay=(
   consolas-font
-  spotify
-  spotifywm-git
   ttf-gentium-basic
 )
 
 sudo pacman -S --noconfirm ${pacman[@]}
 yay -S --noconfirm ${yay[@]}
+
+sudo ufw enable
