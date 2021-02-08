@@ -1,55 +1,71 @@
 #!/bin/bash
 
-# Get some information
-read -p 'Name from host: ' hostname
-read -p 'Computer user name: ' user
-read -p 'Password from user: ' upass
-read -p 'Password from root: ' rpass
-
-# System clock
-timedatectl set-ntp true
-timedatectl status
-
-# Base packages
-pacstrap /mnt base base-devel linux linux-firmware nano sudo
-
-# Fstab
-genfstab -U /mnt >> /mnt/etc/fstab
-
-# Chroot
-arch-chroot /mnt /bin/bash <<EOF
-
 # Time zone
+{
 ln -sf /usr/share/zoneinfo/America/Bogota /etc/localtime
 hwclock --systohc
+} &> /dev/null
+echo "$(tput setaf 2)✓ $(tput sgr0)Time zone configured"
 
 # Localization
+{
 echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
 echo LANG=en_US.UTF-8 > /etc/locale.conf
 echo KEYMAP=es > /etc/vconsole.conf
+} &> /dev/null
+echo "$(tput setaf 2)✓ $(tput sgr0)Language settle"
 
 # Networking
+echo ">>> Time to add hostname and edit hosts..."
+read -p 'Enter hostname: ' hostname
+{
 echo $hostname > /etc/hostname
 echo "127.0.0.1   localhost" >> /etc/hosts
 echo "::1   localhost" >> /etc/hosts
 echo "127.0.1.1   $hostname.localdomain   $hostname" >> /etc/hosts
+} &> /dev/null
+echo "$(tput setaf 2)✓ $(tput sgr0)Hostname and hosts configured"
 
 # Root pass
-echo "root:${rpass}" | chpasswd
+echo ">>> Setting up root password..."
+passwd
 
-# Bootloader (Grub)
+# Bootloader
+echo ">>> Time to install and configure a bootloader (Grub)..."
+{
 pacman -S --noconfirm grub efibootmgr os-prober dosfstools mtools ntfs-3g
+} &> /dev/null
 grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=Arch --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # Create user and permissions
+echo ">>> Time to add an user..."
+read -p 'Enter username: ' user
+{
 useradd -m -G wheel,video,audio,input,power,storage,optical $user
-echo "${user}:${upass}" | chpasswd
+} &> /dev/null
+echo ">> and set his password..."
+passwd $user
+echo "$(tput setaf 2)✓ $(tput sgr0)User $user created successfully, press any key to continue"
+read tmpvar
+EDITOR=nano visudo
 
-# Internet and home folders
-pacman -S --noconfirm networkmanager xdg-user-dirs
+# Internet
+echo ">>> Time to install Network Manager..."
+{
+pacman -S --noconfirm networkmanager
 systemctl enable NetworkManager
+} &> /dev/null
+echo "$(tput setaf 2)✓ $(tput sgr0)Network Manager configured successfully"
+
+# User directories
+echo ">>> Time to install create user folders, press any key to continue..."
+read tmpvar
+{
+pacman -S --noconfirm xdg-user-dirs
 xdg-user-dirs-update
-EOF
-arch-chroot /mnt
+} &> /dev/null
+echo "$(tput setaf 2)✓ $(tput sgr0)User directories created"
+
+echo "$(tput setaf 2)✓✓✓ $(tput sgr0)Configuration done. You can now exit."
