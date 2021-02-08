@@ -8,13 +8,14 @@ makepkg -si
 cd $HOME
 
 # Install esential packages
-pacman=(
+basePackages=(
   arandr
   bspwm
   chromium
   dmenu
   gvfs
   kitty
+  lxappearance
   lxsession
   neovim
   nitrogen
@@ -40,11 +41,39 @@ pacman=(
   zsh
 )
 
-yay=(
-  polybar
+addPackages=(
+  adobe-source-sans-pro-fonts
+  adobe-source-serif-pro-fonts
+  github-cli
+  libreoffice-fresh
+  mplayer
+  neofetch
+  nodejs
+  noto-fonts
+  npm
+  reflector
+  ttf-caladea
+  ttf-carlito
+  ttf-dejavu
+  ttf-linux-libertine-g
+  ttf-roboto-mono
+  ufw
+  vlc
+  yq
+  zathura
+  zathura-cb
+  zathura-djvu
+  zathura-pdf-mupdf
+  zathura-ps
 )
 
-sudo pacman -S --noconfirm ${pacman[@]}
+yay=(
+  polybar
+  consolas-font
+  ttf-gentium-basic
+)
+
+sudo pacman -S --noconfirm ${basePackages[@]}
 yay -S --noconfirm ${yay[@]}
 
 # Oh-my-zsh
@@ -63,8 +92,16 @@ ssh -T git@github.com
 # Clone dotfiles
 cd $HOME
 rm .zshrc
-git clone --bare https://github.com/yesiddgarzon/.dotfiles.git $HOME/.dotfiles
-alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+echo ".dotfiles" >> .gitignore
+git clone --bare git@github.com:yesiddgarzon/.dotfiles.git $HOME/.dotfiles
+alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 dotfiles checkout
 dotfiles config --local status.showUntrackedFiles no
 sudo cp ~/.config/zsh/gitstart /usr/local/bin
+
+# Install more needed packages
+sudo pacman -S --noconfirm ${pacman[@]}
+yay -S --noconfirm ${yay[@]}
+
+# Enable Firewall
+sudo ufw enable
