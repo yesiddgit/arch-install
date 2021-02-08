@@ -11,7 +11,7 @@ timedatectl set-ntp true
 timedatectl status
 
 # Base packages
-pacstrap /mnt base base-devel linux linux-firmware
+pacstrap /mnt base base-devel linux linux-firmware sed
 
 # Fstab
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -31,7 +31,7 @@ echo KEYMAP=es > /etc/vconsole.conf
 
 # Networking
 echo $hostname > /etc/hostname
-sed -i "127.0.0.1  localhost/::1  localhost/127.0.1.1  ${hostname}.localdomain  ${hostname}" /etc/hosts
+sed -i "127.0.0.1  localhost/::1  localhost/127.0.1.1  $hostname.localdomain  $hostname" /etc/hosts
 
 # Root pass
 echo "root:${rpass}" | chpasswd
