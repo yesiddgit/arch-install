@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# Get some information
+read -p 'Name from host: ' hostname
+read -p 'Computer user name: ' user
+read -p 'Password from user: ' upass
+read -p 'Password from root: ' rpass
+
+# System clock
+timedatectl set-ntp true
+timedatectl status
+
+# Base packages
+pacstrap /mnt base base-devel linux linux-firmware nano sudo
+
+# Fstab
+genfstab -U /mnt >> /mnt/etc/fstab
+
+# Chroot
+arch-chroot /mnt /bin/bash <<EOF
+
+# Time zone
+ln -sf /usr/share/zoneinfo/America/Bogota /etc/localtime
+hwclock --systohc
+
+# Localization
+echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+locale-gen
+echo LANG=en_US.UTF-8 > /etc/locale.conf
+echo KEYMAP=es > /etc/vconsole.conf
+
+# Networking
+echo $hostname > /etc/hostname
+echo "127.0.0.1   localhost" >> /etc/hosts
+echo "::1   localhost" >> /etc/hosts
+echo "127.0.1.1   $hostname.localdomain   $hostname" >> /etc/hosts
+
+# Root pass
+echo "root:${rpass}" | chpasswd
+
+# Bootloader (Grub)
+pacman -S --noconfirm grub efibootmgr os-prober dosfstools mtools ntfs-3g
+grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=Arch --recheck
+grub-mkconfig -o /boot/grub/grub.cfg
+
+# Create user and permissions
+useradd -m -G wheel,video,audio,input,power,storage,optical $user
+echo "${user}:${upass}" | chpasswd
+
+# Internet and home folders
+pacman -S --noconfirm networkmanager xdg-user-dirs
+systemctl enable NetworkManager
+xdg-user-dirs-update
+EOF
+arch-chroot /mnt
