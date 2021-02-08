@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# System clock
+timedatectl set-ntp true
+timedatectl status
+
+# Partitioning
+cgdisk /dev/sda
+
+# Format partitions
+#mkfs.vfat -F32 /dev/sda1
+#mkfs.ext4 /dev/sda2
+#mkfs.ext4 /dev/sda3
+#mkswap /dev/sda4
+
+# Mount partitions
+#mount /dev/sda2 /mnt
+#mkdir -p /mnt/{home,boot/EFI}
+#mount /dev/sda1 /mnt/boot/EFI
+#mount /dev/sda3 /mnt/home
+
+# Base packages
+pacstrap /mnt base base-devel linux linux-firmware nano sudo
+
+# Fstab
+genfstab -U /mnt >> /mnt/etc/fstab
+
+# Copy base install
+cp archBasicInstall /mnt/
+cp archPostInstall /mnt/home/
+
+# Chroot
+arch-chroot /mnt
