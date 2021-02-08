@@ -100,8 +100,7 @@ dotfiles config --local status.showUntrackedFiles no
 sudo cp ~/.config/zsh/gitstart /usr/local/bin
 
 # Install more needed packages
-sudo pacman -S --noconfirm ${pacman[@]}
-yay -S --noconfirm ${yay[@]}
+sudo pacman -S --noconfirm ${addPackages[@]}
 
 # Enable Firewall
 sudo ufw enable
