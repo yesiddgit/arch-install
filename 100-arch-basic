@@ -1,29 +1,23 @@
 #!/bin/bash
+
+# Get some information
+read -p 'Name from host: ' hostname
+read -p 'Computer user name: ' user
+read -p 'Password from user: ' upass
+read -p 'Password from root: ' rpass
+
 # System clock
 timedatectl set-ntp true
 timedatectl status
 
-# Disks
-cgdisk /dev/sda
-mkfs.fat -F32 /dev/sda1
-mkfs.ext4 /dev/sda2
-mkfs.ext4 /dev/sda3
-mkswap /dev/sda4
-swapon /dev/sda4
-mount /dev/sda2 /mnt
-mkdir /mnt/boot
-mkdir /mnt/home
-mount /dev/sda1 /mnt/boot
-mount /dev/sda3 /mnt/home
-
 # Base packages
-pacstrap /mnt base linux linux-firmware nano
+pacstrap /mnt base base-devel linux linux-firmware
 
 # Fstab
 genfstab -U /mnt >> /mnt/etc/fstab
 
 # Chroot
-arch-chroot /mnt
+arch-chroot /mnt /bin/bash <<EOF
 
 # Time zone
 ln -sf /usr/share/zoneinfo/America/Bogota /etc/localtime
@@ -36,30 +30,25 @@ echo LANG=en_US.UTF-8 > /etc/locale.conf
 echo KEYMAP=es > /etc/vconsole.conf
 
 # Networking
-echo archlinux > /etc/hostname
-nano /etc/hosts
-#127.0.0.1   localhost
-#::1         localhost
-#127.0.1.1   archlinux.localdomain   archlinux
+echo $hostname > /etc/hostname
+sed -i "127.0.0.1  localhost/::1  localhost/127.0.1.1  ${hostname}.localdomain  ${hostname}" /etc/hosts
 
 # Root pass
-passwd
+echo "root:${rpass}" | chpasswd
 
 # Bootloader (Grub)
 pacman -S grub efibootmgr os-prober dosfstools mtools ntfs-3g
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Arch --recheck
+grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=Arch --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # Create user and permissions
-useradd -m -G wheel,video,audio,input,power,storage,optical yesidd
-passwd yesidd
-pacman -S base-devel sudo
-EDITOR=nano visudo
+useradd -m -G wheel,video,audio,input,power,storage,optical $user
+echo "${user}:${upass}" | chpasswd
+sed --in-place 's/^#\s*\(%wheel\s\+ALL=(ALL)\s\+NOPASSWD:\s\+ALL\)/\1/' /etc/sudoers
 
 # Internet and home folders
-pacman -S networkmanager xdg-user-dirs git
+pacman -S networkmanager xdg-user-dirs
 systemctl enable NetworkManager
-# nmcli dev wifi connect SSID password pass
 xdg-user-dirs-update
 
-exit
+EOF
