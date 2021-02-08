@@ -39,7 +39,7 @@ echo "127.0.1.1   $hostname.localdomain   $hostname" >> /etc/hosts
 echo "root:${rpass}" | chpasswd
 
 # Bootloader (Grub)
-pacman -S grub efibootmgr os-prober dosfstools mtools ntfs-3g
+pacman -S --noconfirm grub efibootmgr os-prober dosfstools mtools ntfs-3g
 grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=Arch --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
 
@@ -48,7 +48,7 @@ useradd -m -G wheel,video,audio,input,power,storage,optical $user
 echo "${user}:${upass}" | chpasswd
 
 # Internet and home folders
-pacman -S networkmanager xdg-user-dirs
+pacman -S --noconfirm networkmanager xdg-user-dirs
 systemctl enable NetworkManager
 xdg-user-dirs-update
 EOF
