@@ -68,4 +68,28 @@ xdg-user-dirs-update
 } &> /dev/null
 echo "$(tput setaf 2)✓ $(tput sgr0)User directories created"
 
+# Desktop Environment
+echo ">>> Time to install desktop environment packages..."
+read tmpvar
+basePackages=(
+  arandr
+  bspwm
+  chromium
+  dmenu
+  kitty
+  openssh
+  picom
+  rofi
+  sxhkd
+  xf86-input-libinput
+  xf86-video-nouveau
+  xorg-server
+  xorg-xinit
+  xorg-xsetroot
+)
+{
+sudo pacman -S --noconfirm ${basePackages[@]}
+} &> /dev/null
+echo "$(tput setaf 2)✓ $(tput sgr0)Basic Packages Installed"
+
 echo "$(tput setaf 2)✓✓✓ $(tput sgr0)Configuration done. You can now exit."
