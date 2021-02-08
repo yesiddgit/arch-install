@@ -11,7 +11,7 @@ timedatectl set-ntp true
 timedatectl status
 
 # Base packages
-pacstrap /mnt base base-devel linux linux-firmware sed
+pacstrap /mnt base base-devel linux linux-firmware nano sudo
 
 # Fstab
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -31,7 +31,9 @@ echo KEYMAP=es > /etc/vconsole.conf
 
 # Networking
 echo $hostname > /etc/hostname
-sed -i "127.0.0.1  localhost/::1  localhost/127.0.1.1  $hostname.localdomain  $hostname" /etc/hosts
+echo "127.0.0.1   localhost" >> /etc/hosts
+echo "::1   localhost" >> /etc/hosts
+echo "127.0.1.1   $hostname.localdomain   $hostname" >> /etc/hosts
 
 # Root pass
 echo "root:${rpass}" | chpasswd
@@ -44,11 +46,10 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # Create user and permissions
 useradd -m -G wheel,video,audio,input,power,storage,optical $user
 echo "${user}:${upass}" | chpasswd
-sed --in-place 's/^#\s*\(%wheel\s\+ALL=(ALL)\s\+NOPASSWD:\s\+ALL\)/\1/' /etc/sudoers
 
 # Internet and home folders
 pacman -S networkmanager xdg-user-dirs
 systemctl enable NetworkManager
 xdg-user-dirs-update
-
 EOF
+arch-chroot /mnt
