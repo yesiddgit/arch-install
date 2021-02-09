@@ -35,19 +35,18 @@ passwd
 echo ">>> Time to install and configure a bootloader (Grub)..."
 {
 pacman -S --noconfirm grub efibootmgr os-prober dosfstools mtools ntfs-3g
-} &> /dev/null
 grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=Arch --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
+} &> /dev/null
+echo "$(tput setaf 2)✓ $(tput sgr0)Bootloader Installed succesfully"
 
 # Create user and permissions
 echo ">>> Time to add an user..."
 read -p 'Enter username: ' user
-{
 useradd -m -G wheel,video,audio,input,power,storage,optical $user
-} &> /dev/null
-echo ">> and set his password..."
+echo ">> ...and set his password"
 passwd $user
-echo "$(tput setaf 2)✓ $(tput sgr0)User $user created successfully, press any key to continue"
+echo "$(tput setaf 2)✓ $(tput sgr0)User $user created successfully, press any key to edit permissions"
 read tmpvar
 EDITOR=nano visudo
 
@@ -68,28 +67,11 @@ xdg-user-dirs-update
 } &> /dev/null
 echo "$(tput setaf 2)✓ $(tput sgr0)User directories created"
 
-# Desktop Environment
-echo ">>> Time to install desktop environment packages..."
-read tmpvar
-basePackages=(
-  arandr
-  bspwm
-  chromium
-  dmenu
-  kitty
-  openssh
-  picom
-  rofi
-  sxhkd
-  xf86-input-libinput
-  xf86-video-nouveau
-  xorg-server
-  xorg-xinit
-  xorg-xsetroot
-)
+# Copy scripts
 {
-sudo pacman -S --noconfirm ${basePackages[@]}
+git clone https://github.com/yesiddgarzon/arch-install.git /home/$user/arch-install
+chmod +x /home/$user/arch-install/archPostInstall
 } &> /dev/null
-echo "$(tput setaf 2)✓ $(tput sgr0)Basic Packages Installed"
+echo "$(tput setaf 2)✓ $(tput sgr0)Scripts Copied in user $user location"
 
-echo "$(tput setaf 2)✓✓✓ $(tput sgr0)Configuration done. You can now exit."
+exit
