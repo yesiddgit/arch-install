@@ -1,85 +1,78 @@
 #!/bin/bash
 
-# Setting up requirements
-sudo pacman -S --noconfirm git curl wget base-devel
-
-# Setup YAY
+# Packages management with yay
+sudo pacman -S --noconfirm --needed git curl wget base-devel &> /dev/null
 cd $HOME
-git clone https://aur.archlinux.org/yay.git
+git clone https://aur.archlinux.org/yay.git &> /dev/null
 cd yay
 makepkg -si
 cd $HOME
 clear
 
-# Install esential packages
-pacman=(
-  gvfs
-  lxappearance
-  lxsession
-  neovim
-  nitrogen
-  numlockx
-  pamixer
-  pavucontrol
-  playerctl
-  pulseaudio
-  pulseaudio-alsa
-  ueberzug
-  unrar
-  vifm
-  xsel
-  zsh
-  adobe-source-sans-pro-fonts
-  adobe-source-serif-pro-fonts
-  github-cli
-  libreoffice-fresh
-  mplayer
-  neofetch
-  nodejs
-  noto-fonts
-  npm
-  reflector
-  ttf-caladea
-  ttf-carlito
-  ttf-dejavu
-  ttf-linux-libertine-g
-  ttf-roboto-mono
-  ufw
+# Install drivers
+{
+sudo pacman -S --noconfirm xf86-video-nouveau xorg-server xorg-xinit xorg-xsetroot xf86-input-libinput numlockx xsel sxiv
+} &> /dev/null
+echo "$(tput setaf 2)✓ $(tput sgr0)Drivers Installed"
+
+# Install DE or WM
+{
+sudo pacman -S --noconfirm arandr bspwm chromium dmenu kitty picom rofi sxhkd neovim nitrogen lxsession
+yay -S --noconfirm polybar consolas-font
+} &> /dev/null
+echo "$(tput setaf 2)✓ $(tput sgr0)Desktop Manager or Window Manager Installed"
+
+# Sound System
+{
+sudo pacman -S --noconfirm pulseaudio pulseaudio-alsa pavucontrol pamixer playerctl
+} &> /dev/null
+echo "$(tput setaf 2)✓ $(tput sgr0)Sound system Installed"
+
+# Firewal
+{
+sudo pacman -S --noconfirm ufw
+ufw enable
+} &> /dev/null
+echo "$(tput setaf 2)✓ $(tput sgr0)Firewall Installed and configured"
+
+# Console
+{
+sudo pacman -S --noconfirm zsh npm nodejs neofetch openssh
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
+} &> /dev/null
+echo "$(tput setaf 2)✓ $(tput sgr0)Console Packages Installed"
+
+# Appearance and additional packages
+pacman=( 
+  gvfs 
+  lxappearance 
+  ueberzug 
+  unrar 
+  vifm 
+  adobe-source-{sans-pro,serif-pro}-fonts 
+  github-cli 
+  libreoffice-fresh 
+  noto-fonts 
+  mplayer 
+  reflector 
+  ttf-{caladea,carlito,dejavu,linux-libertine-g,roboto-mono}
   vlc
   yq
   zathura
-  zathura-cb
-  zathura-djvu
-  zathura-pdf-mupdf
-  zathura-ps
+  zathura-{cb,djvu,pdf-mupdf,ps}
 )
-
-yay=(
-  polybar
-  consolas-font
-  ttf-gentium-basic
-)
-
 {
 sudo pacman -S --noconfirm ${pacman[@]}
-yay -S --noconfirm ${yay[@]}
 } &> /dev/null
-echo "$(tput setaf 2)✓ $(tput sgr0)Basic Packages Installed"
+echo "$(tput setaf 2)✓ $(tput sgr0)Additional Packages Installed"
 
-# Oh-my-zsh
-cd $HOME
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-{
-git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
-} &> /dev/null
-clear
-echo "$(tput setaf 2)✓ $(tput sgr0)Zsh installed and configured succesfully"
-
-# Git config
+# General configurations
 git config --global user.name yesiddgarzon
 git config --global user.email yesiddgarzon@gmail.com
 git config --global color.ui true
 git config --global core.editor nvim
+ssh -T git@github.com
 
 # Clone dotfiles
 cd $HOME
@@ -93,9 +86,5 @@ alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 dotfiles checkout
 dotfiles config --local status.showUntrackedFiles no
 sudo cp ~/.config/zsh/gitstart /usr/local/bin
-
-ssh -T git@github.com
-# Enable Firewall
-sudo ufw enable
 
 echo "$(tput setaf 2)✓✓✓ $(tput sgr0)Configuration done. You can now exit."
