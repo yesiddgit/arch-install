@@ -66,6 +66,7 @@ pacman -S --noconfirm xdg-user-dirs
 xdg-user-dirs-update
 } &> /dev/null
 echo "$(tput setaf 2)✓ $(tput sgr0)User directories created"
+echo "alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'" >> /home/$user/.bashrc
 
 # Copy scripts
 {
