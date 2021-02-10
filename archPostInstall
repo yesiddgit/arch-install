@@ -45,18 +45,19 @@ echo "$(tput setaf 2)✓ $(tput sgr0)Console Packages Installed"
 
 # Appearance and additional packages
 pacman=( 
+  adobe-source-{sans-pro,serif-pro}-fonts 
+  github-cli 
   gvfs 
+  libreoffice-fresh 
   lxappearance 
+  mplayer 
+  noto-fonts 
+  pcmanfm
+  reflector 
+  ttf-{caladea,carlito,dejavu,linux-libertine-g,roboto-mono}
   ueberzug 
   unrar 
   vifm 
-  adobe-source-{sans-pro,serif-pro}-fonts 
-  github-cli 
-  libreoffice-fresh 
-  noto-fonts 
-  mplayer 
-  reflector 
-  ttf-{caladea,carlito,dejavu,linux-libertine-g,roboto-mono}
   vlc
   yq
   zathura
