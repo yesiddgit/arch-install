@@ -86,6 +86,10 @@ read tmpvar
 alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 dotfiles checkout
 dotfiles config --local status.showUntrackedFiles no
+
+# Copy scripts to PATH
 sudo cp ~/.config/zsh/gitstart /usr/local/bin
+sudo cp ~/.config/vifm/scripts/vifmimg /usr/local/bin
+sudo cp ~/.config/vifm/scripts/vifmrun /usr/local/bin
 
 echo "$(tput setaf 2)✓✓✓ $(tput sgr0)Configuration done. You can now exit."
