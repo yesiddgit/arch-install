@@ -1,11 +1,21 @@
 #!/bin/bash
 
+# Add important packages
+clear
+echo "==> Installing necessary packages"
+{
+  pacman -S --noconfirm base-devel sudo nano git curl  
+} &> /dev/null
+echo "$(tput setaf 2) -> $(tput sgr0)Packages Installed"
+
+echo "==> Arch linux system configuration"
+
 # Time zone
 {
 ln -sf /usr/share/zoneinfo/America/Bogota /etc/localtime
 hwclock --systohc
 } &> /dev/null
-echo "$(tput setaf 2)=> $(tput sgr0)Time zone configured"
+echo "$(tput setaf 2) -> $(tput sgr0)Time zone configured"
 
 # Localization
 {
@@ -14,61 +24,61 @@ locale-gen
 echo LANG=en_US.UTF-8 > /etc/locale.conf
 echo KEYMAP=es > /etc/vconsole.conf
 } &> /dev/null
-echo "$(tput setaf 2)=> $(tput sgr0)Language settle"
+echo "$(tput setaf 2) -> $(tput sgr0)Language settle"
 
 # Networking
-echo ">>> Time to add hostname and edit hosts..."
-read -p 'Enter hostname: ' hostname
+echo "==> Adding hostname and edit hosts"
+read -p "Enter hostname: " hostname
 {
 echo $hostname > /etc/hostname
 echo "127.0.0.1   localhost" >> /etc/hosts
 echo "::1   localhost" >> /etc/hosts
 echo "127.0.1.1   $hostname.localdomain   $hostname" >> /etc/hosts
 } &> /dev/null
-echo "$(tput setaf 2)=> $(tput sgr0)Hostname and hosts configured"
+echo "$(tput setaf 2) -> $(tput sgr0)Hostname and hosts configured"
 
 # Root pass
-echo ">>> Setting up root password..."
+echo "==> Changing root password"
 passwd
 
 # Bootloader
-echo ">>> Time to install and configure a bootloader (Grub)..."
+echo "==> Installing bootloader (Grub)"
 {
 pacman -S --noconfirm grub efibootmgr os-prober dosfstools mtools ntfs-3g
 grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=Arch --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
 } &> /dev/null
-echo "$(tput setaf 2)=> $(tput sgr0)Bootloader Installed succesfully"
+echo "$(tput setaf 2) -> $(tput sgr0)Bootloader Installed succesfully"
 
 # Create user and permissions
-echo ">>> Time to add an user..."
-read -p 'Enter username: ' user
+echo "==> Adding user"
+read -p "Enter username: " user
 useradd -m -G wheel,video,audio,input,power,storage,optical $user
-echo ">> ...and set his password"
+echo "==> Setting user password"
 passwd $user
-echo "$(tput setaf 2)=> $(tput sgr0)User $user created successfully, press any key to edit permissions"
+echo "$(tput setaf 2) -> $(tput sgr0)User $user created successfully, press any key to edit permissions"
 read tmpvar
 EDITOR=nano visudo
 
 # Internet
-echo ">>> Time to install Network Manager..."
+echo "==> Installing internet manager"
 {
 pacman -S --noconfirm networkmanager
 systemctl enable NetworkManager
 } &> /dev/null
-echo "$(tput setaf 2)=> $(tput sgr0)Network Manager configured successfully"
+echo "$(tput setaf 2) -> $(tput sgr0)Network Manager configured successfully"
 
 # User directories
-echo ">>> Time to create user folders, press any key to continue..."
-read tmpvar
+echo "==> Creating user directories"
 {
 pacman -S --noconfirm xdg-user-dirs
 xdg-user-dirs-update
 } &> /dev/null
-echo "$(tput setaf 2)=> $(tput sgr0)User directories created"
+echo "$(tput setaf 2) -> $(tput sgr0)User directories created"
 
-echo "alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'" >> /home/$user/.bashrc
+echo "alias dotfiles='/usr/bin/git --git-dir=/home/$user/.dotfiles/ --work-tree=/home/$user'" >> /home/$user/.bashrc
 
-echo ">>> Time to exit... press any key to do it"
+echo "==> System configuration done successfully"
+echo "==> Time to exit... press any key to do it"
 read tmpvar
 exit

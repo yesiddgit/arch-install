@@ -20,7 +20,7 @@ mount /dev/sda1 /mnt/boot/EFI
 mount /dev/sda3 /mnt/home
 
 # Base packages
-pacstrap /mnt base linux linux-firmware nano sudo linux-headers
+pacstrap /mnt base linux linux-firmware
 
 # Fstab
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -31,3 +31,7 @@ chmod +x /mnt/root/archInstall
 
 # Chroot
 arch-chroot /mnt /root/archInstall
+
+# Exit after run archInstall script
+umount -R /mnt
+reboot

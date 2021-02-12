@@ -1,48 +1,51 @@
 #!/bin/bash
 
 # Packages management with yay
-sudo pacman -S --noconfirm --needed git curl wget base-devel &> /dev/null
+echo "==> Arch Linux System Post Installation"
 cd $HOME
 git clone https://aur.archlinux.org/yay.git &> /dev/null
 cd yay
-makepkg -si
+makepkg -srci --noconfirm &> /dev/null
 cd $HOME
 clear
-echo "$(tput setaf 2)=> $(tput sgr0)Yay Installed Successfully"
+echo "$(tput setaf 2) -> $(tput sgr0)Yay Installed Successfully"
 
 # Install drivers
 {
 sudo pacman -S --noconfirm xf86-video-nouveau xorg-server xorg-xinit xorg-xsetroot xf86-input-libinput numlockx xsel sxiv
 } &> /dev/null
-echo "$(tput setaf 2)=> $(tput sgr0)Drivers Installed"
+echo "$(tput setaf 2) -> $(tput sgr0)Drivers Installed"
 
 # Install DE or WM
 {
 sudo pacman -S --noconfirm arandr bspwm chromium dmenu kitty picom rofi sxhkd neovim nitrogen lxsession
 yay -S --noconfirm polybar consolas-font
 } &> /dev/null
-echo "$(tput setaf 2)=> $(tput sgr0)Desktop Manager/Window Manager Installed"
+echo "$(tput setaf 2) -> $(tput sgr0)Desktop Manager/Window Manager Installed"
 
 # Sound System
 {
 sudo pacman -S --noconfirm pulseaudio pulseaudio-alsa pavucontrol pamixer playerctl
 } &> /dev/null
-echo "$(tput setaf 2)=> $(tput sgr0)Sound system Installed"
+echo "$(tput setaf 2) -> $(tput sgr0)Sound system Installed"
 
 # Firewal
 {
 sudo pacman -S --noconfirm ufw
 ufw enable
 } &> /dev/null
-echo "$(tput setaf 2)=> $(tput sgr0)Firewall Installed and configured"
+echo "$(tput setaf 2) -> $(tput sgr0)Firewall Installed and configured"
 
 # Console
+echo "==> Installing zsh and making it default"
+echo ">>> press enter and type exit next"
 {
 sudo pacman -S --noconfirm zsh npm nodejs neofetch openssh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
+chsh -s $(which zsh)
 } &> /dev/null
-echo "$(tput setaf 2)=> $(tput sgr0)Console Packages Installed"
+echo "$(tput setaf 2) -> $(tput sgr0)Console Packages Installed"
 
 # Appearance and additional packages
 pacman=( 
@@ -68,30 +71,34 @@ pacman=(
 {
 sudo pacman -S --noconfirm ${pacman[@]}
 } &> /dev/null
-echo "$(tput setaf 2)=> $(tput sgr0)Additional Packages Installed"
+echo "$(tput setaf 2) -> $(tput sgr0)Additional Packages Installed"
 
-# General configurations
+# Clone dotfiles
+echo "==> Cloning dotfiles repository"
+cd $HOME
+rm .zshrc
+{
+git clone --bare https://github.com/yesiddgarzon/.dotfiles.git $HOME/.dotfiles
+} &> /dev/null
+echo "$(tput setaf 2) -> $(tput sgr0)Dotfiles cloned succesfully"
+echo ">>> Press any key to continue"
+read tmpvar
+dotfiles checkout
+dotfiles config --local status.showUntrackedFiles no
+
+# Git Configuration
+echo "==> Making global git configurations"
 git config --global user.name yesiddgarzon
 git config --global user.email yesiddgarzon@gmail.com
 git config --global color.ui true
 git config --global core.editor nvim
 ssh -T git@github.com
 
-# Clone dotfiles
-cd $HOME
-rm .zshrc
-{
-git clone --bare https://github.com/yesiddgarzon/.dotfiles.git $HOME/.dotfiles
-} &> /dev/null
-echo "$(tput setaf 2)=> $(tput sgr0)Dotfiles cloned succesfully, press any key to continue"
-read tmpvar
-alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
-dotfiles checkout
-dotfiles config --local status.showUntrackedFiles no
-
 # Copy scripts to PATH
+echo "==> Copying zsh and vifm scripts to path"
 sudo cp ~/.config/zsh/gitstart /usr/local/bin
 sudo cp ~/.config/vifm/scripts/vifmimg /usr/local/bin
 sudo cp ~/.config/vifm/scripts/vifmrun /usr/local/bin
 
-echo "$(tput setaf 2)=>=>=> $(tput sgr0)Configuration done. You can now exit."
+echo "$(tput setaf 2) ->-> All done. You can exit now."
+read tmpvar
