@@ -8,32 +8,33 @@ cd yay
 makepkg -si
 cd $HOME
 clear
+echo "$(tput setaf 2)=> $(tput sgr0)Yay Installed Successfully"
 
 # Install drivers
 {
 sudo pacman -S --noconfirm xf86-video-nouveau xorg-server xorg-xinit xorg-xsetroot xf86-input-libinput numlockx xsel sxiv
 } &> /dev/null
-echo "$(tput setaf 2)✓ $(tput sgr0)Drivers Installed"
+echo "$(tput setaf 2)=> $(tput sgr0)Drivers Installed"
 
 # Install DE or WM
 {
 sudo pacman -S --noconfirm arandr bspwm chromium dmenu kitty picom rofi sxhkd neovim nitrogen lxsession
 yay -S --noconfirm polybar consolas-font
 } &> /dev/null
-echo "$(tput setaf 2)✓ $(tput sgr0)Desktop Manager or Window Manager Installed"
+echo "$(tput setaf 2)=> $(tput sgr0)Desktop Manager/Window Manager Installed"
 
 # Sound System
 {
 sudo pacman -S --noconfirm pulseaudio pulseaudio-alsa pavucontrol pamixer playerctl
 } &> /dev/null
-echo "$(tput setaf 2)✓ $(tput sgr0)Sound system Installed"
+echo "$(tput setaf 2)=> $(tput sgr0)Sound system Installed"
 
 # Firewal
 {
 sudo pacman -S --noconfirm ufw
 ufw enable
 } &> /dev/null
-echo "$(tput setaf 2)✓ $(tput sgr0)Firewall Installed and configured"
+echo "$(tput setaf 2)=> $(tput sgr0)Firewall Installed and configured"
 
 # Console
 {
@@ -41,7 +42,7 @@ sudo pacman -S --noconfirm zsh npm nodejs neofetch openssh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
 } &> /dev/null
-echo "$(tput setaf 2)✓ $(tput sgr0)Console Packages Installed"
+echo "$(tput setaf 2)=> $(tput sgr0)Console Packages Installed"
 
 # Appearance and additional packages
 pacman=( 
@@ -52,6 +53,7 @@ pacman=(
   lxappearance 
   mplayer 
   noto-fonts 
+  p7zip
   pcmanfm
   reflector 
   ttf-{caladea,carlito,dejavu,linux-libertine-g,roboto-mono}
@@ -66,7 +68,7 @@ pacman=(
 {
 sudo pacman -S --noconfirm ${pacman[@]}
 } &> /dev/null
-echo "$(tput setaf 2)✓ $(tput sgr0)Additional Packages Installed"
+echo "$(tput setaf 2)=> $(tput sgr0)Additional Packages Installed"
 
 # General configurations
 git config --global user.name yesiddgarzon
@@ -81,7 +83,7 @@ rm .zshrc
 {
 git clone --bare https://github.com/yesiddgarzon/.dotfiles.git $HOME/.dotfiles
 } &> /dev/null
-echo "$(tput setaf 2)✓ $(tput sgr0)Dotfiles cloned succesfully, press any key to continue"
+echo "$(tput setaf 2)=> $(tput sgr0)Dotfiles cloned succesfully, press any key to continue"
 read tmpvar
 alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 dotfiles checkout
@@ -92,4 +94,4 @@ sudo cp ~/.config/zsh/gitstart /usr/local/bin
 sudo cp ~/.config/vifm/scripts/vifmimg /usr/local/bin
 sudo cp ~/.config/vifm/scripts/vifmrun /usr/local/bin
 
-echo "$(tput setaf 2)✓✓✓ $(tput sgr0)Configuration done. You can now exit."
+echo "$(tput setaf 2)=>=>=> $(tput sgr0)Configuration done. You can now exit."
