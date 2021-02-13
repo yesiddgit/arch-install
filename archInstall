@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # Add important packages
+echo ">>> Inserting info needed to configure the system"
+read -p "Enter hostname: " hostname
+read -p "Enter username: " user
 clear
 echo "==> Installing necessary packages"
 {
@@ -28,7 +31,6 @@ echo "$(tput setaf 2) -> $(tput sgr0)Language settle"
 
 # Networking
 echo "==> Adding hostname and edit hosts"
-read -p "Enter hostname: " hostname
 {
 echo $hostname > /etc/hostname
 echo "127.0.0.1   localhost" >> /etc/hosts
@@ -52,7 +54,6 @@ echo "$(tput setaf 2) -> $(tput sgr0)Bootloader Installed succesfully"
 
 # Create user and permissions
 echo "==> Adding user"
-read -p "Enter username: " user
 useradd -m -G wheel,video,audio,input,power,storage,optical $user
 echo "==> Setting user password"
 passwd $user
@@ -78,7 +79,7 @@ echo "$(tput setaf 2) -> $(tput sgr0)User directories created"
 
 echo "alias dotfiles='/usr/bin/git --git-dir=/home/$user/.dotfiles/ --work-tree=/home/$user'" >> /home/$user/.bashrc
 
-echo "==> System configuration done successfully"
-echo "==> Time to exit... press any key to do it"
+echo "$(tput setaf 2)==> System configuration done successfully"
+echo "$(tput setaf 2)==> Time to exit... press any key to do it"
 read tmpvar
 exit
