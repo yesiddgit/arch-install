@@ -12,7 +12,7 @@ echo "$(tput setaf 2) -> $(tput sgr0)Yay Installed Successfully"
 
 # Install drivers
 {
-sudo pacman -S --noconfirm xf86-video-nouveau xorg-server xorg-xinit xorg-xsetroot xf86-input-libinput numlockx xsel sxiv
+sudo pacman -S --noconfirm xf86-video-nouveau xorg-server xorg-xinit xorg-xsetroot xf86-input-libinput numlockx xsel sxiv xclip
 } &> /dev/null
 echo "$(tput setaf 2) -> $(tput sgr0)Drivers Installed"
 
