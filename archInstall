@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Add important packages
+clear
 echo ">>> Inserting info needed to configure the system"
 read -p "Enter hostname: " hostname
 read -p "Enter username: " user
