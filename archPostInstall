@@ -1,6 +1,7 @@
 #!/bin/bash
 
-echo "==> Arch Linux System Post Installation"
+clear
+echo "$(tput setaf 7)$(tput bold)==> Arch Linux System Post Installation$(tput sgr0)"
 
 # Packages management with yay
 echo "==> Installing required packages"
@@ -9,7 +10,6 @@ git clone https://aur.archlinux.org/yay.git &> /dev/null
 cd yay
 makepkg -srci --noconfirm &> /dev/null
 cd $HOME
-clear
 echo "$(tput setaf 2) -> $(tput sgr0)Yay Installed Successfully"
 
 # Install drivers
