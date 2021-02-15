@@ -20,14 +20,17 @@ mount /dev/sda1 /mnt/boot/EFI
 mount /dev/sda3 /mnt/home
 
 # Base packages
-pacstrap /mnt base linux linux-firmware
+pacstrap /mnt base base-devel linux linux-firmware nertworkmanager
 
 # Fstab
 genfstab -U /mnt >> /mnt/etc/fstab
 
 # Copy install scripts
 cp -rfv archInstall /mnt/root
+cp -rfv archPostInstall /mnt/root
+cp -rfv sudoers /mnt/root
 chmod +x /mnt/root/archInstall
+chmod +x /mnt/root/archPostInstall
 
 # Chroot
 arch-chroot /mnt /root/archInstall
