@@ -21,7 +21,7 @@ mount /dev/sda3 /mnt/home
 swapon /dev/sda4
 
 # Base packages
-pacstrap /mnt base base-devel linux linux-firmware nertworkmanager
+pacstrap /mnt base base-devel linux linux-firmware networkmanager
 
 # Fstab
 genfstab -U /mnt >> /mnt/etc/fstab
