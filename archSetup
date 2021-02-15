@@ -18,6 +18,7 @@ mount /dev/sda2 /mnt
 mkdir -p /mnt/{home,boot/EFI}
 mount /dev/sda1 /mnt/boot/EFI
 mount /dev/sda3 /mnt/home
+swapon /dev/sda4
 
 # Base packages
 pacstrap /mnt base base-devel linux linux-firmware nertworkmanager
