@@ -3,11 +3,11 @@
 # Add important packages
 clear
 echo ">>> Inserting info needed to configure the system"
-read -p "Enter hostname: " hostname
-read -p "Enter username: " user
+read -p ">>> Enter hostname: " hostname
+read -p ">>> Enter username: " user
 clear
 
-echo "==> Arch linux system configuration"
+echo "$(tput setaf 7)$(tput bold)==> Arch Linux System Installation$(tput sgr0)"
 
 # Time zone
 {
@@ -23,7 +23,7 @@ locale-gen
 echo LANG=en_US.UTF-8 > /etc/locale.conf
 echo KEYMAP=es > /etc/vconsole.conf
 } &> /dev/null
-echo "$(tput setaf 2) -> $(tput sgr0)Language settle"
+echo "$(tput setaf 2) -> $(tput sgr0)Locale configured"
 
 # Networking
 echo "==> Adding hostname and edit hosts"
@@ -68,7 +68,6 @@ echo "$(tput setaf 2) -> $(tput sgr0)User directories created"
 # Scripts 
 mv /root/archPostInstall /home/$user/
 mv /root/dotfileSetup /home/$user/
-echo "alias dotfiles='/usr/bin/git --git-dir=/home/$user/.dotfiles/ --work-tree=/home/$user'" /home/$user/.bashrc
 
 echo "$(tput setaf 2)==> System configuration done successfully"
 echo "$(tput setaf 2)==> Time to exit... press any key to do it"

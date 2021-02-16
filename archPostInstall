@@ -73,7 +73,33 @@ pacman=(
 sudo pacman -S --noconfirm ${pacman[@]} &> /dev/null
 echo "$(tput setaf 2) -> $(tput sgr0)Additional Packages Installed"
 
-echo ">>> Press any key to continue"
-read tmpvar
+# Clone dotfiles
+clear
+echo "==> Cloning dotfiles repository"
+cd $HOME
+rm .zshrc
+git clone --bare https://github.com/yesiddgarzon/.dotfiles.git $HOME/.dotfiles &> /dev/null
+/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout
+echo "$(tput setaf 2) -> $(tput sgr0)Dotfiles cloned succesfully"
+/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout
+/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config --local status.showUntrackedFiles no
+
+# Git Configuration
+echo "==> Making global git configurations"
+git config --global user.name yesiddgarzon
+git config --global user.email yesiddgarzon@gmail.com
+git config --global color.ui true
+git config --global core.editor nvim
+
+# Copy scripts to PATH
+echo "==> Copying zsh and vifm scripts to path"
+sudo cp ~/.config/zsh/gitstart /usr/local/bin
+sudo cp ~/.config/vifm/scripts/vifmimg /usr/local/bin
+sudo cp ~/.config/vifm/scripts/vifmrun /usr/local/bin
+echo "$(tput setaf 2) -> $(tput sgr0)Gitstart copied to $PATH"
+echo "$(tput setaf 2) -> $(tput sgr0)vifmimg copied to $PATH"
+echo "$(tput setaf 2) -> $(tput sgr0)vifmrun copied to $PATH"
+
 echo "$(tput setaf 2) ->-> All done $(tput sgr0)"
+echo ">>> Press any key to continue"
 read tmpvar

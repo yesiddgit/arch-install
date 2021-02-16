@@ -27,10 +27,9 @@ pacstrap /mnt base base-devel linux linux-firmware networkmanager grub efibootmg
 genfstab -U /mnt >> /mnt/etc/fstab
 
 # Copy install scripts
-cp -rfv archConfig /mnt/root
+cp -rfv archInstall /mnt/root
 cp -rfv archPostInstall /mnt/root
 cp -rfv sudoers /mnt/root
-cp -rfv dotfileSetup /mnt/root
 chmod +x /mnt/root/archInstall
 chmod +x /mnt/root/archPostInstall
 
