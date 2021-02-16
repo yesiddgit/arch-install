@@ -41,10 +41,10 @@ echo "$(tput setaf 2) -> $(tput sgr0)Firewall Installed and configured"
 # Console
 {
 sudo pacman -S --noconfirm zsh npm nodejs neofetch openssh
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
-chsh -s $(which zsh)
 } &> /dev/null
+chsh -s $(which zsh)
 echo "$(tput setaf 2) -> $(tput sgr0)Zsh Installed and configured"
 
 # Appearance and additional packages
@@ -70,37 +70,10 @@ pacman=(
   zathura
   zathura-{cb,djvu,pdf-mupdf,ps}
 )
-{
-sudo pacman -S --noconfirm ${pacman[@]}
-} &> /dev/null
+sudo pacman -S --noconfirm ${pacman[@]} &> /dev/null
 echo "$(tput setaf 2) -> $(tput sgr0)Additional Packages Installed"
 
-# Clone dotfiles
-echo "==> Cloning dotfiles repository"
-cd $HOME
-rm .zshrc
-{
-git clone --bare https://github.com/yesiddgarzon/.dotfiles.git $HOME/.dotfiles
-} &> /dev/null
-echo "$(tput setaf 2) -> $(tput sgr0)Dotfiles cloned succesfully"
 echo ">>> Press any key to continue"
 read tmpvar
-dotfiles checkout
-dotfiles config --local status.showUntrackedFiles no
-
-# Git Configuration
-echo "==> Making global git configurations"
-git config --global user.name yesiddgarzon
-git config --global user.email yesiddgarzon@gmail.com
-git config --global color.ui true
-git config --global core.editor nvim
-ssh -T git@github.com
-
-# Copy scripts to PATH
-echo "==> Copying zsh and vifm scripts to path"
-sudo cp ~/.config/zsh/gitstart /usr/local/bin
-sudo cp ~/.config/vifm/scripts/vifmimg /usr/local/bin
-sudo cp ~/.config/vifm/scripts/vifmrun /usr/local/bin
-
-echo "$(tput setaf 2) ->-> All done. You can exit now."
+echo "$(tput setaf 2) ->-> All done $(tput sgr0)"
 read tmpvar

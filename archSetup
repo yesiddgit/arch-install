@@ -21,7 +21,7 @@ mount /dev/sda3 /mnt/home
 swapon /dev/sda4
 
 # Base packages
-pacstrap /mnt base base-devel linux linux-firmware networkmanager
+pacstrap /mnt base base-devel linux linux-firmware networkmanager grub efibootmgr dosfstools mtools ntfs-3g os-prober xdg-user-dirs nano git curl linux-header sudo 
 
 # Fstab
 genfstab -U /mnt >> /mnt/etc/fstab

@@ -6,11 +6,6 @@ echo ">>> Inserting info needed to configure the system"
 read -p "Enter hostname: " hostname
 read -p "Enter username: " user
 clear
-echo "==> Installing required packages"
-{
-  pacman -S --noconfirm sudo nano git curl linux-headers 
-} &> /dev/null
-echo "$(tput setaf 2) -> $(tput sgr0)Packages Installed"
 
 echo "==> Arch linux system configuration"
 
@@ -47,7 +42,6 @@ passwd
 # Bootloader
 echo "==> Installing bootloader (Grub)"
 {
-pacman -S --noconfirm grub efibootmgr os-prober dosfstools mtools ntfs-3g
 grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=Grub --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
 } &> /dev/null
@@ -58,28 +52,23 @@ echo "==> Adding user"
 useradd -m -G wheel,video,audio,input,power,storage,optical $user
 echo "==> Setting user password"
 passwd $user
-echo "$(tput setaf 2) -> $(tput sgr0)User $user created successfully, press any key to edit permissions"
+echo "$(tput setaf 2) -> $(tput sgr0)User $user created successfully"
 mv /root/sudoers /etc/sudoers
-read tmpvar
 
 # Internet
 echo "==> Installing internet manager"
-{
-systemctl enable NetworkManager
-} &> /dev/null
+systemctl enable NetworkManager &> /dev/null
 echo "$(tput setaf 2) -> $(tput sgr0)Network Manager configured successfully"
 
 # User directories
 echo "==> Creating user directories"
-{
-pacman -S --noconfirm xdg-user-dirs
-xdg-user-dirs-update
-} &> /dev/null
+xdg-user-dirs-update &> /dev/null
 echo "$(tput setaf 2) -> $(tput sgr0)User directories created"
 
 # Scripts 
 mv /root/archPostInstall /home/$user/
-echo "alias dotfiles='/usr/bin/git --git-dir=/home/$user/.dotfiles/ --work-tree=/home/$user'" >> /home/$user/.bashrc
+mv /root/dotfileSetup /home/$user/
+echo "alias dotfiles='/usr/bin/git --git-dir=/home/$user/.dotfiles/ --work-tree=/home/$user'"
 
 echo "$(tput setaf 2)==> System configuration done successfully"
 echo "$(tput setaf 2)==> Time to exit... press any key to do it"
