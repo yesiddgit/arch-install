@@ -67,7 +67,6 @@ echo "$(tput setaf 2) -> $(tput sgr0)User directories created"
 
 # Scripts 
 mv /root/archPostInstall /home/$user/
-mv /root/dotfileSetup /home/$user/
 
 echo "$(tput setaf 2)==> System configuration done successfully"
 echo "$(tput setaf 2)==> Time to exit... press any key to do it"
