@@ -21,7 +21,7 @@ mount /dev/sda3 /mnt/home
 swapon /dev/sda4
 
 # Base packages
-pacstrap /mnt base base-devel linux linux-firmware networkmanager grub efibootmgr dosfstools mtools ntfs-3g os-prober xdg-user-dirs nano git curl linux-header sudo 
+pacstrap /mnt base base-devel linux linux-firmware networkmanager grub efibootmgr dosfstools mtools ntfs-3g os-prober xdg-user-dirs nano git curl linux-headers sudo 
 
 # Fstab
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -30,6 +30,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 cp -rfv archInstall /mnt/root
 cp -rfv archPostInstall /mnt/root
 cp -rfv sudoers /mnt/root
+cp -rfv dotfileSetup /mnt/root
 chmod +x /mnt/root/archInstall
 chmod +x /mnt/root/archPostInstall
 
