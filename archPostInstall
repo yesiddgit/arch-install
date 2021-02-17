@@ -74,7 +74,6 @@ sudo pacman -S --noconfirm ${pacman[@]} &> /dev/null
 echo "$(tput setaf 2) -> $(tput sgr0)Additional Packages Installed"
 
 # Clone dotfiles
-clear
 echo "==> Cloning dotfiles repository"
 cd $HOME
 rm .zshrc
