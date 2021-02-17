@@ -34,7 +34,7 @@ chmod +x /mnt/root/archInstall
 chmod +x /mnt/root/archPostInstall
 
 # Chroot
-arch-chroot /mnt /root/archConfig
+arch-chroot /mnt /root/archInstall
 
 # Exit after run archInstall script
 umount -R /mnt
