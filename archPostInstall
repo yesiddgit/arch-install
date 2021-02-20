@@ -1,5 +1,19 @@
 #!/bin/bash
 
+# Group packages to install
+drivers=(xf86-video-nouveau xorg-server xorg-xinit xorg-xsetroot
+  xf86-input-libinput numlockx xsel sxiv xclip
+)
+de=(arandr bspwm chromium dmenu kitty picom rofi sxhkd neovim nitrogen lxsession)
+dey=(polybar consolas)
+sound=(pulseaudio pulseaudio-alsa pavucontrol pamixer playerctl)
+dev=(zsh npm nodejs neofetch openssh)
+utilities=(adobe-source-{sans-pro,serif-pro}-fonts fileroller ffmpegthumbnailer
+  github-cli gvfs libreoffice-fresh lxappearance mplayer noto-fonts p7zip
+  pcmanfm reflector ttf-{caladea,carlito,dejavu,linux-libertine-g,roboto-mono}
+  ueberzug unrar vifm vlc yq zathura zathura-{cb,djvu,pdf-mupdf,ps}
+)
+
 clear
 echo "$(tput setaf 7)$(tput bold)==> Arch Linux System Post Installation$(tput sgr0)"
 
@@ -13,34 +27,28 @@ cd $HOME
 echo "$(tput setaf 2) -> $(tput sgr0)Yay Installed Successfully"
 
 # Install drivers
-{
-sudo pacman -S --noconfirm xf86-video-nouveau xorg-server xorg-xinit xorg-xsetroot xf86-input-libinput numlockx xsel sxiv xclip
-} &> /dev/null
+sudo pacman -S --noconfirm ${drivers[@]} &> /dev/null
 echo "$(tput setaf 2) -> $(tput sgr0)Drivers Installed"
 
 # Install DE or WM
 {
-sudo pacman -S --noconfirm arandr bspwm chromium dmenu kitty picom rofi sxhkd neovim nitrogen lxsession
-yay -S --noconfirm polybar consolas-font
+sudo pacman -S --noconfirm ${de[@]}
+yay -S --noconfirm ${dey[@]}
 } &> /dev/null
 echo "$(tput setaf 2) -> $(tput sgr0)Desktop Manager/Window Manager Installed"
 
 # Sound System
-{
-sudo pacman -S --noconfirm pulseaudio pulseaudio-alsa pavucontrol pamixer playerctl
-} &> /dev/null
+sudo pacman -S --noconfirm ${sound[@]} &> /dev/null
 echo "$(tput setaf 2) -> $(tput sgr0)Sound system Installed"
 
 # Firewal
-{
-sudo pacman -S --noconfirm ufw
-ufw enable
-} &> /dev/null
+sudo pacman -S --noconfirm ufw &> /dev/null
+ufw enable &> /dev/null
 echo "$(tput setaf 2) -> $(tput sgr0)Firewall Installed and configured"
 
 # Console
 {
-sudo pacman -S --noconfirm zsh npm nodejs neofetch openssh
+sudo pacman -S --noconfirm ${dev[@]}
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
 } &> /dev/null
@@ -48,29 +56,7 @@ chsh -s $(which zsh)
 echo "$(tput setaf 2) -> $(tput sgr0)Zsh Installed and configured"
 
 # Appearance and additional packages
-pacman=( 
-  adobe-source-{sans-pro,serif-pro}-fonts 
-  fileroller
-  ffmpegthumbnailer
-  github-cli 
-  gvfs 
-  libreoffice-fresh 
-  lxappearance 
-  mplayer 
-  noto-fonts 
-  p7zip
-  pcmanfm
-  reflector 
-  ttf-{caladea,carlito,dejavu,linux-libertine-g,roboto-mono}
-  ueberzug 
-  unrar 
-  vifm 
-  vlc
-  yq
-  zathura
-  zathura-{cb,djvu,pdf-mupdf,ps}
-)
-sudo pacman -S --noconfirm ${pacman[@]} &> /dev/null
+sudo pacman -S --noconfirm ${utilities[@]} &> /dev/null
 echo "$(tput setaf 2) -> $(tput sgr0)Additional Packages Installed"
 
 # Clone dotfiles
@@ -95,9 +81,6 @@ echo "==> Copying zsh and vifm scripts to path"
 sudo cp ~/.config/zsh/gitstart /usr/local/bin
 sudo cp ~/.config/vifm/scripts/vifmimg /usr/local/bin
 sudo cp ~/.config/vifm/scripts/vifmrun /usr/local/bin
-echo "$(tput setaf 2) -> $(tput sgr0)Gitstart copied to $PATH"
-echo "$(tput setaf 2) -> $(tput sgr0)vifmimg copied to $PATH"
-echo "$(tput setaf 2) -> $(tput sgr0)vifmrun copied to $PATH"
 
 echo "$(tput setaf 2) ->-> All done $(tput sgr0)"
 echo ">>> Press any key to continue"
