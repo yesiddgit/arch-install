@@ -7,7 +7,7 @@ drivers=(xf86-video-nouveau xorg-server xorg-xinit xorg-xsetroot
 de=(arandr bspwm chromium dmenu kitty picom rofi sxhkd neovim nitrogen lxsession)
 dey=(polybar consolas)
 sound=(pulseaudio pulseaudio-alsa pavucontrol pamixer playerctl)
-dev=(zsh npm nodejs neofetch openssh)
+dev=(zsh npm nodejs neofetch openssh python python2)
 utilities=(adobe-source-{sans-pro,serif-pro}-fonts fileroller ffmpegthumbnailer
   github-cli gvfs libreoffice-fresh lxappearance mplayer noto-fonts p7zip
   pcmanfm reflector ttf-{caladea,carlito,dejavu,linux-libertine-g,roboto-mono}
@@ -53,6 +53,10 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
 } &> /dev/null
 chsh -s $(which zsh)
+{
+  npm config set python /usr/bin/python2
+  sudo npm install npm
+} &> /dev/null
 echo "$(tput setaf 2) -> $(tput sgr0)Zsh Installed and configured"
 
 # Appearance and additional packages
