@@ -83,6 +83,7 @@ git config --global core.editor nvim
 # Copy scripts to PATH
 echo "==> Copying zsh and vifm scripts to path"
 sudo cp ~/.config/zsh/gitstart /usr/local/bin
+sudo cp ~/.config/zsh/layout_manager /usr/local/bin
 sudo cp ~/.config/vifm/scripts/vifmimg /usr/local/bin
 sudo cp ~/.config/vifm/scripts/vifmrun /usr/local/bin
 
