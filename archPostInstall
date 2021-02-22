@@ -4,7 +4,7 @@
 drivers=(xf86-video-nouveau xorg-server xorg-xinit xorg-xsetroot
   xf86-input-libinput numlockx xsel sxiv xclip
 )
-de=(arandr bspwm chromium dmenu kitty picom rofi sxhkd neovim nitrogen lxsession)
+de=(i3 arandr chromium dmenu kitty picom sxhkd neovim nitrogen lxsession xdotool)
 dey=(polybar consolas)
 sound=(pulseaudio pulseaudio-alsa pavucontrol pamixer playerctl)
 dev=(zsh npm nodejs neofetch openssh python python2)
@@ -32,8 +32,8 @@ echo "$(tput setaf 2) -> $(tput sgr0)Drivers Installed"
 
 # Install DE or WM
 {
-sudo pacman -S --noconfirm ${de[@]}
-yay -S --noconfirm ${dey[@]}
+sudo pacman -S --noconfirm --needed ${de[@]}
+yay -S --noconfirm --needed ${dey[@]}
 } &> /dev/null
 echo "$(tput setaf 2) -> $(tput sgr0)Desktop Manager/Window Manager Installed"
 
