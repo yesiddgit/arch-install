@@ -4,7 +4,8 @@
 drivers=(xf86-video-nouveau xorg-server xorg-xinit xorg-xsetroot
   xf86-input-libinput numlockx xsel sxiv xclip
 )
-de=(i3 arandr chromium dmenu kitty picom sxhkd neovim nitrogen lxsession xdotool)
+de=(i3 arandr chromium dmenu kitty picom neovim nitrogen lxsession xdotool
+  sed indent perl-anyevent-i3)
 dey=(polybar consolas)
 sound=(pulseaudio pulseaudio-alsa pavucontrol pamixer playerctl)
 dev=(zsh npm nodejs neofetch openssh python python2)
@@ -83,7 +84,6 @@ git config --global core.editor nvim
 # Copy scripts to PATH
 echo "==> Copying zsh and vifm scripts to path"
 sudo cp ~/.config/zsh/gitstart /usr/local/bin
-sudo cp ~/.config/zsh/layout_manager /usr/local/bin
 sudo cp ~/.config/vifm/scripts/vifmimg /usr/local/bin
 sudo cp ~/.config/vifm/scripts/vifmrun /usr/local/bin
 
