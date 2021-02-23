@@ -2,7 +2,7 @@
 
 # Add important packages
 clear
-echo ">>> Inserting info needed to configure the system"
+echo "$(tput setaf 7)$(tput bold)>>> Inserting info needed to configure the system$(tput sgr0)"
 read -p ">>> Enter hostname: " hostname
 read -p ">>> Enter username: " user
 clear
@@ -14,7 +14,7 @@ echo "$(tput setaf 7)$(tput bold)==> Arch Linux System Installation$(tput sgr0)"
 ln -sf /usr/share/zoneinfo/America/Bogota /etc/localtime
 hwclock --systohc
 } &> /dev/null
-echo "$(tput setaf 2) -> $(tput sgr0)Time zone configured"
+echo "$(tput setaf 2)  -> $(tput sgr0)Time zone configured"
 
 # Localization
 {
@@ -23,7 +23,7 @@ locale-gen
 echo LANG=en_US.UTF-8 > /etc/locale.conf
 echo KEYMAP=es > /etc/vconsole.conf
 } &> /dev/null
-echo "$(tput setaf 2) -> $(tput sgr0)Locale configured"
+echo "$(tput setaf 2)  -> $(tput sgr0)Locale configured"
 
 # Networking
 echo "==> Adding hostname and edit hosts"
@@ -33,7 +33,7 @@ echo "127.0.0.1   localhost" >> /etc/hosts
 echo "::1   localhost" >> /etc/hosts
 echo "127.0.1.1   $hostname.localdomain   $hostname" >> /etc/hosts
 } &> /dev/null
-echo "$(tput setaf 2) -> $(tput sgr0)Hostname and hosts configured"
+echo "$(tput setaf 2)  -> $(tput sgr0)Hostname and hosts configured"
 
 # Root pass
 echo "==> Changing root password"
@@ -45,25 +45,25 @@ echo "==> Installing bootloader (Grub)"
 grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=Grub --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
 } &> /dev/null
-echo "$(tput setaf 2) -> $(tput sgr0)Bootloader Installed succesfully"
+echo "$(tput setaf 2)  -> $(tput sgr0)Bootloader Installed succesfully"
 
 # Create user and permissions
 echo "==> Adding user"
 useradd -m -G wheel,video,audio,input,power,storage,optical $user
 echo "==> Setting user password"
 passwd $user
-echo "$(tput setaf 2) -> $(tput sgr0)User $user created successfully"
+echo "$(tput setaf 2)  -> $(tput sgr0)User $user created successfully"
 mv /root/sudoers /etc/sudoers
 
 # Internet
 echo "==> Installing internet manager"
 systemctl enable NetworkManager &> /dev/null
-echo "$(tput setaf 2) -> $(tput sgr0)Network Manager configured successfully"
+echo "$(tput setaf 2)  -> $(tput sgr0)Network Manager configured successfully"
 
 # User directories
 echo "==> Creating user directories"
 xdg-user-dirs-update &> /dev/null
-echo "$(tput setaf 2) -> $(tput sgr0)User directories created"
+echo "$(tput setaf 2)  -> $(tput sgr0)User directories created"
 
 # Scripts 
 mv /root/archPostInstall /home/$user/

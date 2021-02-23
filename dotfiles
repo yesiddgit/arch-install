@@ -1,0 +1,31 @@
+#!/bin/bash
+# Clone dotfiles
+echo "==> Cloning dotfiles repository"
+cd $HOME
+rm .zshrc
+git clone --bare git@github.com:yesiddgarzon/dotfiles.git $HOME/.dotfiles &> /dev/null
+echo "$(tput setaf 2)  -> $(tput sgr0)Dotfiles cloned succesfully"
+bg checkout
+
+# Back up existing files in .config
+echo "$  -> $(tput sgr0)Backing up existing files"
+mkdir -p .config-backup && \
+config checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | \
+xargs -I{} mv {} .config-backup/{}
+
+# Place new files in directories
+bg checkout
+bg config --local status.showUntrackedFiles no
+
+# Git Configuration
+echo "==> Making global git configurations"
+git config --global user.name yesiddgarzon
+git config --global user.email yesiddgarzon@gmail.com
+git config --global color.ui true
+git config --global core.editor nvim
+
+# Copy scripts to PATH
+echo "==> Copying zsh and vifm scripts to path"
+sudo cp ~/.config/zsh/gitstart /usr/local/bin
+sudo cp ~/.config/vifm/scripts/vifmimg /usr/local/bin
+sudo cp ~/.config/vifm/scripts/vifmrun /usr/local/bin

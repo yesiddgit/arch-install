@@ -1,17 +1,27 @@
 #!/bin/bash
 
 # Group packages to install
-drivers=(xf86-video-nouveau xorg-server xorg-xinit xorg-xsetroot
+drivers=(
+  xf86-video-nouveau xorg-server xorg-xinit xorg-xsetroot
   xf86-input-libinput numlockx xsel sxiv xclip network-manager-applet
 )
-de=(i3 arandr chromium dmenu kitty picom neovim feh lxsession xdotool
-  sed indent perl-anyevent-i3)
-dey=(consolas)
-sound=(pulseaudio pulseaudio-alsa pavucontrol playerctl)
-dev=(zsh npm nodejs neofetch openssh python python2)
-utilities=(adobe-source-{sans-pro,serif-pro}-fonts fileroller ffmpegthumbnailer
+de=(
+  i3 i3blocks arandr chromium dmenu kitty picom neovim feh lxsession xdotool
+  sed indent perl-anyevent-i3
+)
+dey=(
+  consolas
+)
+sound=(
+  pulseaudio pulseaudio-alsa pavucontrol playerctl
+)
+dev=(
+  zsh npm nodejs neofetch openssh python python2
+)
+utilities=(
+  adobe-source-{sans-pro,serif-pro}-fonts fileroller ffmpegthumbnailer
   github-cli gvfs libreoffice-fresh lxappearance mplayer noto-fonts p7zip
-  pcmanfm reflector
+  pcmanfm reflector file-roller
   ttf-{caladea,carlito,dejavu,linux-libertine-g,roboto-mono,font-awesome}
   ueberzug unrar vifm vlc yq zathura zathura-{cb,djvu,pdf-mupdf,ps}
 )
@@ -20,7 +30,7 @@ clear
 echo "$(tput setaf 7)$(tput bold)==> Arch Linux System Post Installation$(tput sgr0)"
 
 # Packages management with yay
-echo "==> Installing required packages"
+echo "==> Installing Yet Another Yogurt"
 cd $HOME
 git clone https://aur.archlinux.org/yay.git &> /dev/null
 cd yay
@@ -29,7 +39,7 @@ cd $HOME
 echo "$(tput setaf 2) -> $(tput sgr0)Yay Installed Successfully"
 
 # Install drivers
-sudo pacman -S --noconfirm ${drivers[@]} &> /dev/null
+sudo pacman -S --noconfirm --needed ${drivers[@]} &> /dev/null
 echo "$(tput setaf 2) -> $(tput sgr0)Drivers Installed"
 
 # Install DE or WM
@@ -40,53 +50,31 @@ yay -S --noconfirm --needed ${dey[@]}
 echo "$(tput setaf 2) -> $(tput sgr0)Desktop Manager/Window Manager Installed"
 
 # Sound System
-sudo pacman -S --noconfirm ${sound[@]} &> /dev/null
+sudo pacman -S --noconfirm --needed ${sound[@]} &> /dev/null
 echo "$(tput setaf 2) -> $(tput sgr0)Sound system Installed"
 
 # Firewal
-sudo pacman -S --noconfirm ufw &> /dev/null
+sudo pacman -S --noconfirm --needed ufw &> /dev/null
 ufw enable &> /dev/null
 echo "$(tput setaf 2) -> $(tput sgr0)Firewall Installed and configured"
 
 # Console
 {
-sudo pacman -S --noconfirm ${dev[@]}
+sudo pacman -S --noconfirm --needed ${dev[@]}
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
 } &> /dev/null
+echo "  -> Change default shell to zsh"
 chsh -s $(which zsh)
 {
   npm config set python /usr/bin/python2
-  sudo npm install -g npm 
+  sudo npm i -g npm
 } &> /dev/null
 echo "$(tput setaf 2) -> $(tput sgr0)Zsh Installed and configured"
 
 # Appearance and additional packages
-sudo pacman -S --noconfirm ${utilities[@]} &> /dev/null
+sudo pacman -S --noconfirm --needed ${utilities[@]} &> /dev/null
 echo "$(tput setaf 2) -> $(tput sgr0)Additional Packages Installed"
-
-# Clone dotfiles
-echo "==> Cloning dotfiles repository"
-cd $HOME
-rm .zshrc
-git clone --bare https://github.com/yesiddgarzon/dotfiles.git $HOME/.dotfiles &> /dev/null
-/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout
-echo "$(tput setaf 2) -> $(tput sgr0)Dotfiles cloned succesfully"
-/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout
-/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config --local status.showUntrackedFiles no
-
-# Git Configuration
-echo "==> Making global git configurations"
-git config --global user.name yesiddgarzon
-git config --global user.email yesiddgarzon@gmail.com
-git config --global color.ui true
-git config --global core.editor nvim
-
-# Copy scripts to PATH
-echo "==> Copying zsh and vifm scripts to path"
-sudo cp ~/.config/zsh/gitstart /usr/local/bin
-sudo cp ~/.config/vifm/scripts/vifmimg /usr/local/bin
-sudo cp ~/.config/vifm/scripts/vifmrun /usr/local/bin
 
 echo "$(tput setaf 2) ->-> All done $(tput sgr0)"
 echo ">>> Press any key to continue"
