@@ -1,4 +1,12 @@
 #!/bin/bash
+
+# Git Configuration
+echo "==> Making global git configurations"
+git config --global user.name yesiddgarzon
+git config --global user.email yesiddgarzon@gmail.com
+git config --global color.ui true
+git config --global core.editor nvim
+
 # Clone dotfiles
 echo "==> Cloning dotfiles repository"
 cd $HOME
@@ -16,13 +24,6 @@ xargs -I{} mv {} .config-backup/{}
 # Place new files in directories
 /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout
 /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config --local status.showUntrackedFiles no
-
-# Git Configuration
-echo "==> Making global git configurations"
-git config --global user.name yesiddgarzon
-git config --global user.email yesiddgarzon@gmail.com
-git config --global color.ui true
-git config --global core.editor nvim
 
 # Copy scripts to PATH
 echo "==> Copying zsh and vifm scripts to path"
