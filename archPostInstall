@@ -4,10 +4,10 @@
 drivers=(xf86-video-nouveau xorg-server xorg-xinit xorg-xsetroot
   xf86-input-libinput numlockx xsel sxiv xclip network-manager-applet
 )
-de=(i3 arandr chromium dmenu kitty picom neovim nitrogen lxsession xdotool
+de=(i3 arandr chromium dmenu kitty picom neovim feh lxsession xdotool
   sed indent perl-anyevent-i3)
 dey=(consolas)
-sound=(pulseaudio pulseaudio-alsa pavucontrol pamixer playerctl)
+sound=(pulseaudio pulseaudio-alsa pavucontrol playerctl)
 dev=(zsh npm nodejs neofetch openssh python python2)
 utilities=(adobe-source-{sans-pro,serif-pro}-fonts fileroller ffmpegthumbnailer
   github-cli gvfs libreoffice-fresh lxappearance mplayer noto-fonts p7zip
@@ -57,7 +57,7 @@ git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zs
 chsh -s $(which zsh)
 {
   npm config set python /usr/bin/python2
-  sudo npm install npm
+  sudo npm install -g npm 
 } &> /dev/null
 echo "$(tput setaf 2) -> $(tput sgr0)Zsh Installed and configured"
 
