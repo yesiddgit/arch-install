@@ -2,16 +2,17 @@
 
 # Group packages to install
 drivers=(xf86-video-nouveau xorg-server xorg-xinit xorg-xsetroot
-  xf86-input-libinput numlockx xsel sxiv xclip
+  xf86-input-libinput numlockx xsel sxiv xclip network-manager-applet
 )
 de=(i3 arandr chromium dmenu kitty picom neovim nitrogen lxsession xdotool
   sed indent perl-anyevent-i3)
-dey=(polybar consolas)
+dey=(consolas)
 sound=(pulseaudio pulseaudio-alsa pavucontrol pamixer playerctl)
 dev=(zsh npm nodejs neofetch openssh python python2)
 utilities=(adobe-source-{sans-pro,serif-pro}-fonts fileroller ffmpegthumbnailer
   github-cli gvfs libreoffice-fresh lxappearance mplayer noto-fonts p7zip
-  pcmanfm reflector ttf-{caladea,carlito,dejavu,linux-libertine-g,roboto-mono}
+  pcmanfm reflector
+  ttf-{caladea,carlito,dejavu,linux-libertine-g,roboto-mono,font-awesome}
   ueberzug unrar vifm vlc yq zathura zathura-{cb,djvu,pdf-mupdf,ps}
 )
 
