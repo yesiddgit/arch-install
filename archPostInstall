@@ -19,9 +19,9 @@ dev=(
   zsh npm nodejs neofetch openssh python python2
 )
 utilities=(
-  adobe-source-{sans-pro,serif-pro}-fonts fileroller ffmpegthumbnailer
+  adobe-source-{sans-pro,serif-pro}-fonts file-roller ffmpegthumbnailer
   github-cli gvfs libreoffice-fresh lxappearance mplayer noto-fonts p7zip
-  pcmanfm reflector file-roller
+  pcmanfm reflector 
   ttf-{caladea,carlito,dejavu,linux-libertine-g,roboto-mono,font-awesome}
   ueberzug unrar vifm vlc yq zathura zathura-{cb,djvu,pdf-mupdf,ps}
 )
