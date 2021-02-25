@@ -11,7 +11,7 @@ git config --global core.editor nvim
 echo "==> Cloning dotfiles repository"
 cd $HOME
 rm .zshrc
-git clone --bare git@github.com:yesiddgarzon/dotfiles.git $HOME/.dotfiles &> /dev/null
+git clone --bare git@github.com:yesiddev/dotfiles.git $HOME/.dotfiles &> /dev/null
 echo "$(tput setaf 2)  -> $(tput sgr0)Dotfiles cloned succesfully"
 /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout
 
