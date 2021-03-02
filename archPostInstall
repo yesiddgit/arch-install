@@ -7,10 +7,10 @@ drivers=(
 )
 de=(
   i3 i3blocks arandr chromium dmenu kitty picom neovim feh lxsession xdotool
-  sed indent perl-anyevent-i3
+  sed indent perl-anyevent-i3 jq
 )
 dey=(
-  consolas
+  consolas sublime-text-3
 )
 sound=(
   pulseaudio pulseaudio-alsa pavucontrol playerctl
@@ -21,7 +21,7 @@ dev=(
 utilities=(
   adobe-source-{sans-pro,serif-pro}-fonts file-roller ffmpegthumbnailer
   github-cli gvfs libreoffice-fresh lxappearance mplayer noto-fonts p7zip
-  pcmanfm reflector 
+  pcmanfm reflector discord
   ttf-{caladea,carlito,dejavu,linux-libertine-g,roboto-mono,font-awesome}
   ueberzug unrar vifm vlc yq zathura zathura-{cb,djvu,pdf-mupdf,ps}
 )

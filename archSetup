@@ -29,9 +29,11 @@ genfstab -U /mnt >> /mnt/etc/fstab
 # Copy install scripts
 cp -rfv archInstall /mnt/root
 cp -rfv archPostInstall /mnt/root
+cp -rfv dotfiles /mnt/root
 cp -rfv sudoers /mnt/root
 chmod +x /mnt/root/archInstall
 chmod +x /mnt/root/archPostInstall
+chmod +x /mnt/root/dotfiles
 
 # Chroot
 arch-chroot /mnt /root/archInstall
